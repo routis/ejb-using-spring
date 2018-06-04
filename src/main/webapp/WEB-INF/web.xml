@@ -1,0 +1,48 @@
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+		 http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+
+    <display-name>EJBs using Spring beans</display-name>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+        </param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>locatorFactorySelector</param-name>
+        <param-value>classpath:beanRefContext.xml</param-value>
+    </context-param>
+
+    <context-param>
+        <description>
+            This param instructs the ContaxtLoaderListener to lookup for parent context
+            instead of bootstrapping from a file or a configuration class.
+
+            The parent context can be defined in another JAR, EJB, WAR project, that should
+            be accessible by this project.
+
+            The parent context is defined via a beanRefContext.xml file, that defines a bean
+            of type org.springframework.context.support.ClassPathXmlApplicationContext.
+
+            The name of the later bean should be placed here.
+        </description>
+        <param-name>parentContextKey</param-name>
+        <param-value>shared</param-value>
+    </context-param>
+
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <env-entry>
+        <env-entry-name>spring.profiles.active</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>default,live</env-entry-value>
+    </env-entry>
+
+</web-app>

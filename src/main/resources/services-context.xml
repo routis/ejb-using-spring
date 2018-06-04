@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
+
+
+    <description>
+        The context which contains the spring beans that are needed for the application
+        It merely delegates the configuration to SpringCfg class.
+        Most of the cases, it is good idea to use java classes for configuration
+    </description>
+
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetClass" value="java.lang.System"/>
+        <property name="targetMethod" value="setProperty"/>
+        <property name="arguments">
+            <list>
+                <value>spring.profiles.active</value>
+                <jee:jndi-lookup id="currentProfileName"
+                                 jndi-name="spring.profiles.active"
+                                 expected-type="java.lang.String"/>
+            </list>
+        </property>
+    </bean>
+
+    <context:component-scan base-package="routis.examples.spring"/>
+
+</beans>
